@@ -1,0 +1,1 @@
+sshdeploy\sshdeploy.exe  monitor -s "C:\Users\alvaro.padilla\Desktop\raspberryio-master\src\Unosquare.RaspberryIO.Playground\bin\Debug\net452\win7-x64" -t "/home/pi/raspberryio" -h "172.16.17.47" -u "pi" -w "raspberry" --pre "sudo pgrep -f 'Unosquare.RaspberryIO.Playground.exe' | xargs -r kill" --post "sudo mono /home/pi/raspberryio/Unosquare.RaspberryIO.Playground.exe" 
