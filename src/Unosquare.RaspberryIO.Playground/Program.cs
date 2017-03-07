@@ -11,6 +11,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public class Program
     {
@@ -281,8 +282,8 @@
         }
 
         private static void TestBT()
-        {
-            $"Bluetooth Active: {Bluetooth.BluetoothController.Instance.StatusBT()}".Info();
+        {            
+            $"Bluetooth Active: {Bluetooth.BluetoothController.Instance.StatusBT}".Info();   
         }
 
         private static void TestCaptureImage()

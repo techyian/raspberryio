@@ -79,6 +79,12 @@ namespace Unosquare.RaspberryIO
         /// </value>
         public static DsiDisplay PiDisplay { get; }
 
+        /// <summary>
+        /// Provides access to the official Raspberry Bluetooth
+        /// </summary>
+        /// <value>
+        /// The display.
+        /// </value>
         public static BluetoothController BT { get; }
         #endregion
 
