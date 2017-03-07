@@ -23,6 +23,7 @@
             try
             {
                 TestSystemInfo();
+                TestBT();
                 //TestCaptureImage();
                 //TestCaptureVideo();
                 //TestLedStripGraphics();
@@ -277,6 +278,11 @@
 
             foreach (var adapter in Computer.NetworkSettings.Instance.RetrieveAdapters())
                 $"Network Adapters = {adapter.Name} IPv4 {adapter.IPv4} IPv6 {adapter.IPv6} AccessPoint {adapter.AccessPointName} MAC Address: {adapter.MacAddress}".Info();
+        }
+
+        private static void TestBT()
+        {
+            $"Bluetooth Active: {Bluetooth.BluetoothController.Instance.StatusBT()}".Info();
         }
 
         private static void TestCaptureImage()

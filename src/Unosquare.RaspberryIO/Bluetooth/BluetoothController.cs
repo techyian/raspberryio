@@ -14,7 +14,12 @@ namespace Unosquare.RaspberryIO.Bluetooth
         /// <summary>
         /// Retrieves current bluetooth status.
         /// </summary>
-        public string GetStatusBT() => ProcessRunner.GetProcessOutputAsync("systemctl", "status bluetooth").Result;
+        //public string StatusBT() => ProcessRunner.GetProcessOutputAsync("systemctl", "status bluetooth").Result;
+        public bool StatusBT()
+        {
+            var statusOutput = ProcessRunner.GetProcessOutputAsync("systemctl", "status bluetooth").Result;
+            return statusOutput.Contains("Running") ? true : false;           
+        }
 
         //public string InitializeBT() => ProcessRunner.GetProcessOutputAsync("sudo", "bluetoothctl").Result;
 

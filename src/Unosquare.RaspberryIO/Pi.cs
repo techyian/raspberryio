@@ -6,6 +6,7 @@ namespace Unosquare.RaspberryIO
     using Computer;
     using Gpio;
     using Native;
+    using Bluetooth;
 
     /// <summary>
     /// Our main character. Provides access to the Raspberry Pi's GPIO, system and board information and Camera
@@ -34,6 +35,7 @@ namespace Unosquare.RaspberryIO
                 I2C = I2CBus.Instance;
                 Camera = CameraController.Instance;
                 PiDisplay = DsiDisplay.Instance;
+                BT = BluetoothController.Instance;
             }
         }
 
@@ -77,6 +79,7 @@ namespace Unosquare.RaspberryIO
         /// </value>
         public static DsiDisplay PiDisplay { get; }
 
+        public static BluetoothController BT { get; }
         #endregion
 
     }
