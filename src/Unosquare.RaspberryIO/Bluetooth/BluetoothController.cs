@@ -18,10 +18,10 @@ namespace Unosquare.RaspberryIO.Bluetooth
         #region SimpleFunctionBluetooth
     
         /// <summary>
-        /// Retrieves current bluetooth status.
+        /// Retrieves current Bluetooth status.
         /// </summary>
         /// 
-        public bool StatusBT
+        public bool IsRunning
         {
             get 
             {
@@ -31,13 +31,15 @@ namespace Unosquare.RaspberryIO.Bluetooth
         }
 
         /// <summary>
-        /// Retrieves current bluetooth status.
+        /// Initialize Bluetooth Control.
         /// </summary>
         /// <returns></returns>
-        public string InitializeBT
+        public string InitializeBT()
         {
-            //Use Pipes for communication
-            get; set;
+            var commandInput = ProcessRunner.GetProcessOutputAsync("echo", "agent on > test1.txrt");
+            var stringOutput = ProcessRunner.GetProcessOutputAsync("bluetoothctl", "< test1.txrt");
+            var Output = ProcessRunner.GetProcessOutputAsync("cat", "test1.txrt").Result;
+            return Output;
         }
 
 

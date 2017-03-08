@@ -283,7 +283,8 @@
 
         private static void TestBT()
         {            
-            $"Bluetooth Active: {Bluetooth.BluetoothController.Instance.StatusBT}".Info();   
+            $"Bluetooth Active = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
+            $"Bluetooth Control = {Bluetooth.BluetoothController.Instance.InitializeBT()}".Info();   
         }
 
         private static void TestCaptureImage()
