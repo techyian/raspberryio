@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO.Models;
@@ -26,7 +28,7 @@ namespace Unosquare.RaspberryIO.Bluetooth
             get 
             {
                 var statusOutput = ProcessRunner.GetProcessOutputAsync("systemctl", "status bluetooth").Result;
-                return statusOutput.Contains("Running") ? true : false;
+                return statusOutput.Contains("Running");
             }
         }
 
@@ -35,14 +37,30 @@ namespace Unosquare.RaspberryIO.Bluetooth
         /// </summary>
         /// <returns></returns>
         public string InitializeBT()
-        {
-            var commandInput = ProcessRunner.GetProcessOutputAsync("echo", "agent on > test1.txrt");
-            var stringOutput = ProcessRunner.GetProcessOutputAsync("bluetoothctl", "< test1.txrt");
-            var Output = ProcessRunner.GetProcessOutputAsync("cat", "test1.txrt").Result;
-            return Output;
+        {          
+            string results = "";
+            Process controlBT = new Process();
+            controlBT.EnableRaisingEvents = true;
+            controlBT.StartInfo = new ProcessStartInfo("bluetoothctl")
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true
+            };
+            controlBT.OutputDataReceived += (s, e) =>
+            {
+                results = e.Data;
+                if (results.Contains("Controller B8:27:EB:CA:03:21"))
+                {
+                    controlBT.StandardInput.WriteLine("agent on");
+                    
+                }
+            };
+            controlBT.Start();
+            controlBT.BeginOutputReadLine();
+            controlBT.WaitForExit(3000);
+            return results;
         }
-
-
         #endregion
     }
 }

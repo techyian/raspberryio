@@ -283,7 +283,7 @@
 
         private static void TestBT()
         {            
-            $"Bluetooth Active = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
+            $"Bluetooth Is Running = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
             $"Bluetooth Control = {Bluetooth.BluetoothController.Instance.InitializeBT()}".Info();   
         }
 
