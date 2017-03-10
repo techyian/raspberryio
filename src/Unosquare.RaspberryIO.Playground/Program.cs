@@ -284,7 +284,12 @@
         private static void TestBT()
         {            
             $"Bluetooth Is Running = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
-            $"Bluetooth Control = {Bluetooth.BluetoothController.Instance.InitializeBT()}".Info();   
+            //$"Bluetooth Control = {Bluetooth.BluetoothController.Instance.InitializeBT()}".Info(); 
+            var results = Bluetooth.BluetoothController.Instance.InitializeBT();
+            foreach(var result in results)
+            {
+                result.Info();
+            }
         }
 
         private static void TestCaptureImage()
