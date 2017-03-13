@@ -38,7 +38,7 @@ namespace Unosquare.RaspberryIO.Bluetooth
         /// Initialize Bluetooth Control.
         /// </summary>
         /// <returns></returns>
-        public List<string> ScanBT()  
+        public Dictionary<string, string> ScanBT()  
         {
             List<string> results = new List<string>();
             List<string> data = new List<string>();
@@ -83,12 +83,15 @@ namespace Unosquare.RaspberryIO.Bluetooth
             controlBT.WaitForExit(10000);
             foreach (var result in data)
             {
-                if (result.Contains("NEW"))
+                if (result.Contains("NEW") && result.Contains("Device"))
                 {
-                    results.Add(result);
+                    var trim = result.Substring(27);
+                    var split = trim.Split();
+                    devices.Add(split[0], split[1]);
+                    results.Add(trim);
                 }
             }
-            return results;
+            return devices;
         }
         #endregion
     }

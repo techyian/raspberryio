@@ -284,10 +284,10 @@
         private static void TestBT()
         {            
             $"Bluetooth Is Running = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
-            var results = Bluetooth.BluetoothController.Instance.ScanBT();
-            foreach (var result in results)
-            {                                            
-                    result.Info();                           
+            $"Near Bluetooth Devices = ".Info();           
+            foreach (var result in Bluetooth.BluetoothController.Instance.ScanBT())
+            {
+                $"BT MAC Address: {result.Key}, Name: {result.Value}".Info();
             }
         }
 
