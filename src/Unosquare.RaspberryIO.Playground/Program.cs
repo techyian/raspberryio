@@ -284,11 +284,10 @@
         private static void TestBT()
         {            
             $"Bluetooth Is Running = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
-            //$"Bluetooth Control = {Bluetooth.BluetoothController.Instance.InitializeBT()}".Info(); 
-            var results = Bluetooth.BluetoothController.Instance.InitializeBT();
-            foreach(var result in results)
-            {
-                result.Info();
+            var results = Bluetooth.BluetoothController.Instance.ScanBT();
+            foreach (var result in results)
+            {                                            
+                    result.Info();                           
             }
         }
 

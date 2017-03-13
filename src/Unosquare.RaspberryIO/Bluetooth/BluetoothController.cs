@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Unosquare.RaspberryIO.Models;
 using Unosquare.Swan;
@@ -37,10 +38,11 @@ namespace Unosquare.RaspberryIO.Bluetooth
         /// Initialize Bluetooth Control.
         /// </summary>
         /// <returns></returns>
-        public List<string> InitializeBT()  
+        public List<string> ScanBT()  
         {
-            List<string> result = new List<string>();
-            bool state = false;
+            List<string> results = new List<string>();
+            List<string> data = new List<string>();
+            bool state = false;            
             Dictionary<string, string> devices = new Dictionary<string, string>();
             Process controlBT = new Process();
             controlBT.EnableRaisingEvents = true;
@@ -51,30 +53,42 @@ namespace Unosquare.RaspberryIO.Bluetooth
                 RedirectStandardInput = true
             };
             controlBT.OutputDataReceived += (s, e) =>
-            {                
-                if (e.Data.Contains("B8:27:EB:CA:03:21"))
+            {
+                if (e.Data.Contains("[bluetooth]#"))
                 {
                     state = true;
                     controlBT.StandardInput.Flush();
                     controlBT.StandardInput.WriteLine("agent on");
+                    Task.Delay(500).Wait();
                     if (state)
                     {
                         state = false;
                         controlBT.StandardInput.Flush();
                         controlBT.StandardInput.WriteLine("default-agent");
+                        Task.Delay(500).Wait();
                         if (!state)
                         {
                             controlBT.StandardInput.Flush();
                             controlBT.StandardInput.WriteLine("scan on");
-                            result.Add(e.Data);
-                        }                        
+                            Task.Delay(7000).Wait();
+                            controlBT.StandardInput.WriteLine("scan off");
+                            Task.Delay(500).Wait();                            
+                        }
                     }
                 }
+                data.Add(e.Data);
             };
             controlBT.Start();
             controlBT.BeginOutputReadLine();
-            controlBT.WaitForExit(8000);
-            return result;
+            controlBT.WaitForExit(10000);
+            foreach (var result in data)
+            {
+                if (result.Contains("NEW"))
+                {
+                    results.Add(result);
+                }
+            }
+            return results;
         }
         #endregion
     }
