@@ -289,6 +289,7 @@
             foreach (var result in Pi.Bluetooth.Devices)
             {
                 $"BT MAC Address: {result.Key}, Name: {result.Value}".Info();
+                $"Pairing: {Pi.Bluetooth.Pair(result.Key)}".Info();
             }
         }
 
