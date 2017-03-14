@@ -1,7 +1,6 @@
 ﻿namespace Unosquare.RaspberryIO.Playground
 {
     using Camera;
-    using Computer;
     using Gpio;
     using Samples;
     using Swan;
@@ -11,7 +10,6 @@
     using System.IO;
     using System.Linq;
     using System.Threading;
-    using System.Threading.Tasks;
 
     public class Program
     {
@@ -24,7 +22,7 @@
             try
             {
                 TestSystemInfo();
-                TestBT();
+                TestBluetooth();
                 //TestCaptureImage();
                 //TestCaptureVideo();
                 //TestLedStripGraphics();
@@ -262,7 +260,7 @@
             {
                 isOn = !isOn;
                 blinkingPin.Write(isOn);
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
             }
         }
 
@@ -281,11 +279,14 @@
                 $"Network Adapters = {adapter.Name} IPv4 {adapter.IPv4} IPv6 {adapter.IPv6} AccessPoint {adapter.AccessPointName} MAC Address: {adapter.MacAddress}".Info();
         }
 
-        private static void TestBT()
+        private static void TestBluetooth()
         {            
-            $"Bluetooth Is Running = {Bluetooth.BluetoothController.Instance.IsRunning}".Info();
-            $"Near Bluetooth Devices = ".Info();           
-            foreach (var result in Bluetooth.BluetoothController.Instance.ScanBT())
+            $"Bluetooth Is Running = {Pi.Bluetooth.IsRunning}".Info();
+            "Bluetooth Scanning".Info();
+            Pi.Bluetooth.Scan();
+            $"Near Bluetooth Devices = {Pi.Bluetooth.Devices.Count}".Info();           
+
+            foreach (var result in Pi.Bluetooth.Devices)
             {
                 $"BT MAC Address: {result.Key}, Name: {result.Value}".Info();
             }
@@ -294,7 +295,7 @@
         private static void TestCaptureImage()
         {
             var pictureBytes = Pi.Camera.CaptureImageJpeg(640, 480);
-            var targetPath = "/home/pi/picture.jpg";
+            const string targetPath = "/home/pi/picture.jpg";
             if (File.Exists(targetPath))
                 File.Delete(targetPath);
 

@@ -35,7 +35,7 @@ namespace Unosquare.RaspberryIO
                 I2C = I2CBus.Instance;
                 Camera = CameraController.Instance;
                 PiDisplay = DsiDisplay.Instance;
-                BT = BluetoothController.Instance;
+                Bluetooth = BluetoothController.Instance;
             }
         }
 
@@ -80,12 +80,13 @@ namespace Unosquare.RaspberryIO
         public static DsiDisplay PiDisplay { get; }
 
         /// <summary>
-        /// Provides access to the official Raspberry Bluetooth
+        /// Provides access to the Raspberry Bluetooth
         /// </summary>
         /// <value>
         /// The display.
         /// </value>
-        public static BluetoothController BT { get; }
+        public static BluetoothController Bluetooth { get; }
+
         #endregion
 
     }
