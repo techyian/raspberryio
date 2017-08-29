@@ -1,6 +1,4 @@
-﻿using Unosquare.RaspberryIO.Resources;
-
-namespace Unosquare.RaspberryIO
+﻿namespace Unosquare.RaspberryIO
 {
     using Camera;
     using Computer;
@@ -25,7 +23,7 @@ namespace Unosquare.RaspberryIO
             lock (SyncLock)
             {
                 // Extraction of embedded resources
-                EmbeddedResources.ExtractAll();
+                Resources.EmbeddedResources.ExtractAll();
 
                 // Instance assignments
                 Gpio = GpioController.Instance;
@@ -74,9 +72,6 @@ namespace Unosquare.RaspberryIO
         /// <summary>
         /// Provides access to the official Raspberry Pi 7-inch DSI Display
         /// </summary>
-        /// <value>
-        /// The display.
-        /// </value>
         public static DsiDisplay PiDisplay { get; }
 
         /// <summary>

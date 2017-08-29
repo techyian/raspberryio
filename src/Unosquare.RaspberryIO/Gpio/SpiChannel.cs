@@ -13,7 +13,7 @@
     public sealed class SpiChannel
     {
         private static readonly object SyncRoot = new object();
-        private readonly object SyncLock = new object();
+        private readonly object _syncLock = new object();
         private static readonly Dictionary<SpiChannelNumber, SpiChannel> Buses = new Dictionary<SpiChannelNumber, SpiChannel>();
 
         /// <summary>
@@ -36,7 +36,6 @@
         /// </summary>
         /// <param name="channel">The channel.</param>
         /// <param name="frequency">The frequency.</param>
-        /// <exception cref="System.SystemException"></exception>
         private SpiChannel(SpiChannelNumber channel, int frequency)
         {
             lock (SyncRoot)
@@ -102,7 +101,7 @@
             if (buffer == null || buffer.Length == 0)
                 return null;
 
-            lock (SyncLock)
+            lock (_syncLock)
             {
                 var spiBuffer = new byte[buffer.Length];
                 Array.Copy(buffer, spiBuffer, buffer.Length);
@@ -123,7 +122,7 @@
         /// <param name="buffer">The buffer.</param>
         public void Write(byte[] buffer)
         {
-            lock (SyncLock)
+            lock (_syncLock)
             {
                 var result = Standard.write(FileDescriptor, buffer, buffer.Length);
 
