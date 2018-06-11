@@ -1,4 +1,6 @@
-﻿namespace Unosquare.RaspberryIO.Gpio
+﻿using System.Runtime.InteropServices;
+
+namespace Unosquare.RaspberryIO.Gpio
 {
     using System;
     using System.Threading.Tasks;
@@ -182,6 +184,29 @@
                 if (result < 0) HardwareException.Throw(nameof(I2CDevice), nameof(ReadAddressByte));
 
                 return (byte)result;
+            }
+        }
+
+        /// <summary>
+        /// Read a block of data from the register provided.
+        /// </summary>
+        /// <param name="address">The register.</param>
+        /// <param name="count">The number of elements.</param>
+        /// <returns>The result</returns>
+        public byte[] ReadAddressBlock(int address, int count)
+        {
+            lock (_syncLock)
+            {
+                var ptr = Marshal.AllocHGlobal(count);
+                
+                var result = WiringPi.WiringPiI2CReadRegBlock(FileDescriptor, address, count, ptr);
+                if (result < 0) HardwareException.Throw(nameof(I2CDevice), nameof(ReadAddressByte));
+                
+                byte[] dest = new byte[count];
+                Marshal.Copy(ptr, dest, 0, count);
+                Marshal.FreeHGlobal(ptr);
+
+                return dest;
             }
         }
 

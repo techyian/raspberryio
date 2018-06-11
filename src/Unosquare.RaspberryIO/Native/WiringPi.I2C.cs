@@ -1,4 +1,6 @@
-﻿namespace Unosquare.RaspberryIO.Native
+﻿using System;
+
+namespace Unosquare.RaspberryIO.Native
 {
     using System.Runtime.InteropServices;
 
@@ -31,6 +33,17 @@
         /// <returns>The result</returns>
         [DllImport(WiringPiLibrary, EntryPoint = "wiringPiI2CReadReg16", SetLastError = true)]
         public static extern int WiringPiI2CReadReg16(int fd, int reg);
+
+        /// <summary>
+        /// Read a block of data from the register provided.
+        /// </summary>
+        /// <param name="fd">The fd.</param>
+        /// <param name="reg">The reg.</param>
+        /// <param name="length">The number of bytes to read.</param>
+        /// <param name="values">The pointer to the byte array.</param>
+        /// <returns>The result</returns>
+        [DllImport(WiringPiLibrary, EntryPoint = "wiringPiI2CReadRegI2CBlock", SetLastError = true, CallingConvention = CallingConvention.Cdecl)]
+        public static extern int WiringPiI2CReadRegBlock(int fd, int reg, int length, IntPtr values);
 
         /// <summary>
         /// Simple device write. Some devices accept data this way without needing to access any internal registers.
